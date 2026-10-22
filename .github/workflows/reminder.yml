@@ -1,0 +1,20 @@
+
+name: Discord Hourly Reminder
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord reminder
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -fsS -H "Content-Type: application/json" \
+            -X POST \
+            -d '{"content":"🔔 **すききらVRC 投票リマインダー**\nskyさんの投票ページはこちら！\nhttps://sukikira-vrc.com/u/56fe9a66-28ed-4120-92d4-1152a43d5a1a","allowed_mentions":{"parse":[]}}' \
+            "$WEBHOOK_URL"
